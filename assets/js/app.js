@@ -1,10 +1,31 @@
-require([ 'Polyfill'], function( polyfill ){
-		//sample ES6 
-		let square = x => x * x;
-		let add = (a, b) => a + b;
-		let pi = () => 3.1415;
+require([ 'Polyfill', 'Promise', 'Properties', 'view' ], function( polyfill, promise, properties, view ){
+		
+		properties.then(function(allProperties){
+			
+			console.log('res is ', allProperties);
+			if(allProperties !== null && typeof allProperties === 'object'){
+				
+				if(allProperties.results && allProperties.results.length > 0){
+					view.loadResultProperties(allProperties.results);
+				}else{
+					console.log('no results set available')
+				}
 
-		console.log(square(5)); // 25
-		console.log(add(3, 4)); // 7
-		console.log(pi()); // 3.1415
+				if(allProperties.saved && allProperties.saved.length > 0){
+					view.loadSavedProperties(allProperties.saved);
+				}else{
+					console.log('no saved properties to display')
+				}
+
+			}else{
+
+				console.log('No results found');
+			}
+			
+		}).catch(function(error){
+			console.log( 'Error '+ error );
+			//no data to display
+
+		})
+
 })

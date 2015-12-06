@@ -78,6 +78,12 @@ module.exports = function(grunt) {
               cwd: 'bower_components/babel-polyfill/',
               src: 'browser-polyfill.js',
               dest: 'assets/js/vendor/'
+            },
+            {
+              expand: true,
+              cwd: 'bower_components/fs/dist',
+              src: 'fs.min.js',
+              dest: 'assets/js/vendor/'
             }
           ]
         }

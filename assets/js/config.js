@@ -2,10 +2,10 @@ requirejs.config({
 	baseUrl: './assets/js',
 	deps: ['build/app'],
 	paths: {
-		'Polyfill': 'vendor/browser-polyfill', 
-		'Promise': 'vendor/bluebird.min',
-		'View': 'build/view',
-		'propertyItem': 'build/propertyItem',
-		'Properties': 'build/properties',
+		'polyfill': 'vendor/browser-polyfill', 
+		'promise': 'vendor/bluebird.min',
+		'properties': 'build/properties',
+		'propertyTempl': 'build/propertyTempl',
+		'loadProperties': 'build/loadProperties',
 	}
 })

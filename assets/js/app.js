@@ -1,31 +1,9 @@
-require([ 'Polyfill', 'Promise', 'Properties', 'view' ], function( polyfill, promise, properties, view ){
+require([ 'polyfill', 'promise', 'loadProperties', 'pubsub', 'properties' ], function( polyfill, promise, loadproperties, pubsub ){
 		
-		properties.then(function(allProperties){
-			
-			console.log('res is ', allProperties);
-			if(allProperties !== null && typeof allProperties === 'object'){
-				
-				if(allProperties.results && allProperties.results.length > 0){
-					view.loadResultProperties(allProperties.results);
-				}else{
-					console.log('no results set available')
-				}
-
-				if(allProperties.saved && allProperties.saved.length > 0){
-					view.loadSavedProperties(allProperties.saved);
-				}else{
-					console.log('no saved properties to display')
-				}
-
-			}else{
-
-				console.log('No results found');
-			}
-			
+		loadproperties.then(function(data){
+			pubsub.emit('PropertiesLoaded', data);
 		}).catch(function(error){
 			console.log( 'Error '+ error );
-			//no data to display
-
 		})
 
 })

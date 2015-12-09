@@ -6,8 +6,10 @@ define(function(){
 		if( obj !== null && typeof obj === 'object' ){
 
 			var liEle             = document.createElement('li'),
-				liImg             = document.createElement('img'),
-				src               = document.createAttribute('src'),
+				liMainImg         = document.createElement('img'),
+				mainImgSrc        = document.createAttribute('src'),
+				liLogoImg         = document.createElement('img'),
+				logoSrc           = document.createAttribute('src'),
 				liH3Ele           = document.createElement('h3'),
 				liH3SpanEle       = document.createElement('span'),
 				liAddButtonDivEle = document.createElement('div'),
@@ -15,9 +17,13 @@ define(function(){
 				liButtonEleDataId = document.createAttribute('data-id');
 			
 			//add logo img to li img	
-			src.value = obj.agency.logo || '';
-			liImg.setAttributeNode(src);
+			logoSrc.value = obj.agency.logo || '';
+			liLogoImg.setAttributeNode(logoSrc);
 			
+			//add logo img to li img	
+			mainImgSrc.value = obj.mainImage || '';
+			liMainImg.setAttributeNode(mainImgSrc);
+
 			//Add inner text to H3 element
 			liH3Ele.innerText = 'Price: ';
 			liH3SpanEle.innerText = obj.price || '';
@@ -33,7 +39,8 @@ define(function(){
 			}
 
 			//append img, h3 and button to liEle
-			liEle.appendChild(liImg);
+			liEle.appendChild(liMainImg);
+			liEle.appendChild(liLogoImg);
 			liEle.appendChild(liH3Ele);
 			liEle.appendChild(liAddButtonDivEle);
 
@@ -61,7 +68,7 @@ define(function(){
 				ele.appendChild(childEle);
 			} 				
 		},
-		moveProperty: function ( el, to ){
+		saveProperty: function ( el, to ){
 			if(el !== null && to !== null && typeof el === 'object' && typeof to === 'object'){	
 				to.appendChild(el);
 			}
@@ -69,24 +76,30 @@ define(function(){
 	}
 
 	var loadProperties = function( properties, ele ){
-		if( properties !== null && typeof properties === 'object' && ele !== null && typeof ele === 'object' ){
+		var valid = ( ele !== null && typeof ele === 'object' ) ? true : false;
+		
+		if( valid ){
+
 			ele.results.innerHTML = '';
 			ele.saved.innerHTML = '';
 			
-			_render.loadProperties(properties.results, ele.results);
-			_render.loadProperties(properties.saved, ele.saved);
-
+			if( properties.results.length > 0 )
+				_render.loadProperties(properties.results, ele.results);
+			if( properties.saved.length > 0 )
+				_render.loadProperties(properties.saved, ele.saved);
+			
 		}
+
+		return valid
 	}
 
-	var moveProperty = function( el, to ){
-
-		_render.moveProperty( el, to );
+	var saveProperty = function( el, to ){
+		_render.saveProperty( el, to );
 	}
 
 	return {
 		loadProperties: loadProperties,
-		moveProperty: moveProperty
+		saveProperty: saveProperty
 	}
 
 })

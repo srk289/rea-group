@@ -15,15 +15,27 @@ ul{
 		button:after{
 			content: 'Remove property';
 		}
+
 	}
 }
+
+
 
 li{
 	background: white;
 	position: relative;
 	padding: 10px;
 	margin-top: 10px; 
+	float: left;
+	width: 100%;
 	
+	img:first-child{
+		float: left;
+		max-width: 300px;
+		width: 40%;
+		padding-right: 10px;
+	}
+
 	&:hover{
 		
 		div{
@@ -61,4 +73,28 @@ li{
 		}
 	}
 
+}
+
+.saved{
+	li{
+		img:first-child{
+			float: left;
+			max-width: 100%;
+			width: 100%;
+			padding-right: 0px;
+		}
+	}
+}
+
+@media only screen and (max-width: 767px) and (min-width: 300px){
+	.saved{
+		li{
+			img:first-child{
+				float: left;
+				max-width: 300px;
+				width: 40%;
+				padding-right: 10px;
+			}
+		}
+	}
 }

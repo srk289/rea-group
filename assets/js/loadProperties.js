@@ -1,10 +1,14 @@
 define(['utils'], function (utils) {
 	
-	var dataResolve = function*() {
-		//ES6 async generator
-		var obj = yield utils.getJSON('properties.json'); 
+	function init(){
+		var dataResolve = function*() {
+			//ES6 async generator
+			var obj = yield utils.getJSON('properties.json'); 
+		}
+		return dataResolve().next().value;;
 	}
-	var data = dataResolve();
-	
-	return data.next().value;
+
+	return {
+		init: init
+	}
 })          

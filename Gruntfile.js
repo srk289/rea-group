@@ -1,5 +1,5 @@
 module.exports = function(grunt) {
-
+  'use strict';
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
     connect: {
@@ -130,6 +130,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-connect');
 
+
   grunt.registerTask('default', ['connect','copy','less','babel','watch']);
 
-};
+}
+
+ 

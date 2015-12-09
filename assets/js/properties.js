@@ -1,4 +1,5 @@
 define(['propertyTempl', 'pubsub', 'utils'], function(template, pubsub, utils){
+	
 	var properties = {};
 	//DOM Cache
 	var eles = {
@@ -12,30 +13,39 @@ define(['propertyTempl', 'pubsub', 'utils'], function(template, pubsub, utils){
 
 	//bind events
 	function _bindEvnts(){
-		pubsub.on('PropertiesLoaded', _loadProperties);
+		pubsub.on('PropertiesLoaded', loadProperties);
 		eles.results.addEventListener('click', _buttonClick);
 		eles.saved.addEventListener('click', _buttonClick);
 	}
 
-	function _loadProperties(updatedProperties) {
-		properties = updatedProperties;
-		template.loadProperties(properties, eles);
+	function loadProperties(data) {
+		var loaded = false;
+		if( data !== null && typeof data === 'object' && data.hasOwnProperty('results') && data.hasOwnProperty('saved')){
+			properties = data;
+			loaded = template.loadProperties(properties, eles);
+		}
+		return loaded; 
 	}
 
 	function _buttonClick(e){
 
 		if(e.target && e.target.nodeName == "BUTTON") {
 			
-			var action   = (e.currentTarget.getAttribute('data-type') == 'results') ? { removeFrom: 'results', addTo: 'saved' } : { removeFrom: 'saved', addTo: 'results'},
+			var source   = (e.currentTarget.getAttribute('data-type') == 'results') ? { from: 'results', to: 'saved' } : { from: 'saved', to: 'results'},
 				id       = e.target.getAttribute('data-id'),
 			 	liEle    = e.target.parentNode.parentNode,
-			 	foundObj = utils.findObj(properties[action.removeFrom], id); 
+			 	foundObj = utils.findObj(properties[source.from], id); 
 			
-			if( foundObj !== null && typeof foundObj == 'object' ){
+			if( foundObj !== null && typeof foundObj === 'object' ){
 				var clonedObj = Object.assign({}, foundObj.obj);
-				properties[action.removeFrom].splice( foundObj.index, 1 );
-				properties[action.addTo].push( clonedObj );
-				template.moveProperty( liEle, eles[action.addTo] );
+				//removes object from array of results/saved 
+				properties[source.from].splice( foundObj.index, 1 );
+				//add object to array of results/saved 
+				properties[source.to].push( clonedObj );
+				
+				//update dom 
+				template.saveProperty( liEle, eles[source.to] );
+				
 			}
 			
 		}
@@ -43,5 +53,9 @@ define(['propertyTempl', 'pubsub', 'utils'], function(template, pubsub, utils){
 	}
 
 	init();
+
+	return {
+		loadProperties : loadProperties
+	}
 
 })

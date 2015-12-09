@@ -1,7 +1,11 @@
-require([ 'polyfill', 'promise', 'loadProperties', 'pubsub', 'properties' ], function( polyfill, promise, loadproperties, pubsub ){
+require([ 'polyfill', 'promise', 'loadProperties', 'pubsub', 'properties' ], function( polyfill, promise, getProperties, pubsub, properties ){
 		
-		loadproperties.then(function(data){
-			pubsub.emit('PropertiesLoaded', data);
+		getProperties.init().then(function(data){
+			//pubsub.emit('PropertiesLoaded', data);
+			if(!properties.loadProperties(data)){
+				//something went wrong
+				alert('something went wrong')
+			}
 		}).catch(function(error){
 			console.log( 'Error '+ error );
 		})

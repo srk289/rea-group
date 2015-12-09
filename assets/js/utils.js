@@ -4,13 +4,13 @@ define([], function () {
 		var xhr = new XMLHttpRequest();
 		var d = Promise.defer();
 		xhr.onreadystatechange = function () {
-		if (xhr.readyState === 4) {
-		  if (xhr.status === 200) {
-		    d.resolve(JSON.parse(xhr.responseText));
-		  } else {
-		    d.reject(xhr.responseText);
-		  }
-		}
+			if (xhr.readyState === 4) {
+			  if (xhr.status === 200) {
+			  		(xhr.responseText) ? d.resolve(JSON.parse(xhr.responseText)) : d.resolve();
+			  } else {
+			    d.reject(xhr.responseText);
+			  }
+			}
 		};
 		xhr.open('GET', url);
 		xhr.send();
